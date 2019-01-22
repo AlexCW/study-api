@@ -2,18 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Response;
+use App\Contracts\TopicContract;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Topics;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TopicsController extends Controller
 {
     /**
+     * @var TopicContract
+     */
+    private $topics;
+
+    public function __construct(TopicContract $topics)
+    {
+        $this->topics = $topics;
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return ResourceCollection
      */
     public function index()
     {
-        return response(200);
+        return Topics::collection($this->topics->getAllTopics());
     }
 }
