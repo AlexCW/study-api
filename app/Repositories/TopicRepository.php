@@ -22,4 +22,9 @@ class TopicRepository implements TopicContract
     {
         return $this->topic->all();
     }
+
+    public function createTopic(array $topic = []) : Topic
+    {
+        return $this->topic->create($topic);
+    }
 }

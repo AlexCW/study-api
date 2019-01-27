@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\TopicContract;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Topics;
+use App\Http\Requests\TopicRequest;
+use App\Http\Resources\TopicsResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TopicsController extends Controller
@@ -26,6 +27,17 @@ class TopicsController extends Controller
      */
     public function index()
     {
-        return Topics::collection($this->topics->getAllTopics());
+        return TopicsResource::collection($this->topics->getAllTopics());
+    }
+
+    /**
+     * @param TopicRequest $request
+     * @return TopicsResource
+     */
+    public function create(TopicRequest $request) : TopicsResource
+    {
+        return new TopicsResource($this->topics->createTopic($request->only([
+            'name', 'description'
+        ])));
     }
 }

@@ -60,6 +60,21 @@ class TopicRepositoryTest extends TestCase
         );
     }
 
+    public function testCreateTopicCreatesATopicAndReturnsTheEntity()
+    {
+        $topicContract = $this->app->make(TopicContract::class);
+
+        $savedTopic = $topicContract->createTopic([
+            'name' => 'Test Topic',
+            'description' => 'A test topic for our tests'
+        ]);
+
+        $this->assertInstanceOf(
+            'App\Models\Topic',
+            $savedTopic
+        );
+    }
+
     public function tearDown()
     {
         parent::tearDown();

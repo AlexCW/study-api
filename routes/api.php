@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('Api')->group(function () {
     Route::get('/topics', 'TopicsController@index')->name('topics.list');
+    Route::post('/topics', 'TopicsController@create')->name('topics.create');
 });

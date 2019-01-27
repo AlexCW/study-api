@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'message' => 'There was a validation error with the request you have provided.',
+                'errors' => $exception->validator->getMessageBag()
+            ], 422);
+        }
+
+        if ($exception instanceof Throwable) {
+            return response()->json([
+                'message' => 'There was an error handling your request please try again later.',
+                'errors' => []
+            ], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }
